@@ -2,113 +2,129 @@
 
 $wardrobe = [
     [
-        "nama" => "Orange T-Shirt",
-        "gambar" => "images/top1.png",
+        "name" => "Orange T-Shirt",
+        "image" => "images/top1.png",
         "category" => "tops",
         "color" => "warm",
         "style" => "casual",
         "has_edit" => true
     ],
     [
-        "nama" => "Black Pants",
-        "gambar" => "images/pants1.png",
+        "name" => "Black Pants",
+        "image" => "images/pants1.png",
         "category" => "bottoms",
         "color" => "neutral",
         "style" => "sporty",
         "has_edit" => false
     ],
     [
-        "nama" => "Brown Hoodie",
-        "gambar" => "images/hoodie1.png",
+        "name" => "Brown Hoodie",
+        "image" => "images/hoodie1.png",
         "category" => "outerwears",
         "color" => "earth",
         "style" => "streetwear",
         "has_edit" => false
     ],
     [
-        "nama" => "Blue Shirt",
-        "gambar" => "images/shirt1.png",
+        "name" => "Blue Shirt",
+        "image" => "images/shirt1.png",
         "category" => "tops",
         "color" => "cool",
         "style" => "formal",
         "has_edit" => false
     ],
     [
-        "nama" => "Silver Watch",
-        "gambar" => "images/watch1.png",
+        "name" => "Silver Watch",
+        "image" => "images/watch1.png",
         "category" => "accessories",
         "color" => "neutral",
         "style" => "formal",
         "has_edit" => false
     ],
     [
-        "nama" => "Gold Necklace",
-        "gambar" => "images/necklace1.png",
+        "name" => "Gold Necklace",
+        "image" => "images/necklace1.png",
         "category" => "accessories",
         "color" => "warm",
         "style" => "vintage",
         "has_edit" => false
     ],
     [
-        "nama" => "Khaki Shorts",
-        "gambar" => "images/pants2.png",
+        "name" => "Khaki Shorts",
+        "image" => "images/pants2.png",
         "category" => "bottoms",
         "color" => "earth",
         "style" => "casual",
         "has_edit" => false
     ],
     [
-        "nama" => "Navy Blazer",
-        "gambar" => "images/blazer1.png",
+        "name" => "Navy Blazer",
+        "image" => "images/blazer1.png",
         "category" => "outerwears",
         "color" => "cool",
         "style" => "business",
         "has_edit" => false
     ],
     [
-        "nama" => "Bomber Jacket",
-        "gambar" => "images/jacket1.png",
+        "name" => "Bomber Jacket",
+        "image" => "images/jacket1.png",
         "category" => "outerwears",
         "color" => "neutral",
         "style" => "streetwear",
         "has_edit" => false
     ],
     [
-        "nama" => "Denim Jacket",
-        "gambar" => "images/jacket2.png",
+        "name" => "Denim Jacket",
+        "image" => "images/jacket2.png",
         "category" => "outerwears",
         "color" => "cool",
         "style" => "streetwear",
         "has_edit" => false
     ],
     [
-        "nama" => "Khaki Chinos",
-        "gambar" => "images/pants4.png",
+        "name" => "Khaki Chinos",
+        "image" => "images/pants4.png",
         "category" => "bottoms",
         "color" => "earth",
         "style" => "casual",
         "has_edit" => false
     ],
     [
-        "nama" => "Blue Jeans",
-        "gambar" => "images/pants3.png",
+        "name" => "Blue Jeans",
+        "image" => "images/pants3.png",
         "category" => "bottoms",
         "color" => "cool",
         "style" => "streetwear",
         "has_edit" => false
     ],
     [
-        "nama" => "White T-Shirt",
-        "gambar" => "images/top2.png",
+        "name" => "White T-Shirt",
+        "image" => "images/top2.png",
         "category" => "tops",
         "color" => "neutral",
         "style" => "casual",
         "has_edit" => false
     ],
     [
-        "nama" => "Black T-Shirt",
-        "gambar" => "images/top3.png",
+        "name" => "Black T-Shirt",
+        "image" => "images/top3.png",
         "category" => "tops",
+        "color" => "neutral",
+        "style" => "casual",
+        "has_edit" => false
+    ],
+    [
+        "name" => "White Shirt",
+        "image" => "images/shirt2.png",
+        "category" => "tops",
+        "color" => "neutral",
+        "style" => "formal",
+        "has_edit" => false
+    ],
+    [
+        "name" => "Black Hat",
+        "image" => "images/hat1.png",
+        "category" => "accessories",
         "color" => "neutral",
         "style" => "casual",
         "has_edit" => false
