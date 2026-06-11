@@ -61,6 +61,8 @@
     <!-- MAIN -->
     <main class="main-content">
 
+        <canvas id="confettiCanvas"></canvas>
+
         <div class="topbar">
             <h5 class="mb-0">
                 Outfit Generator
@@ -241,6 +243,8 @@ function generateOutfit(){
 
     });
 
+    createConfetti();
+
     const top = randomItem(tops);
     const bottom = randomItem(bottoms);
     const outer = randomItem(outers);
@@ -275,6 +279,123 @@ document
 // ==========================
 
 window.onload = generateOutfit;
+
+
+// ==========================
+// CONFETTI ANIMATION
+// ==========================
+
+
+
+const canvas =
+document.getElementById("confettiCanvas");
+
+const ctx =
+canvas.getContext("2d");
+
+canvas.width =
+window.innerWidth;
+
+canvas.height =
+window.innerHeight;
+
+let particles = [];
+
+function createConfetti(){
+
+    particles = [];
+
+    for(let i=0;i<30;i++){
+
+        particles.push({
+
+            x:Math.random()*canvas.width,
+
+            y:-20,
+
+            size:Math.random()*8+4,
+
+            speedY:Math.random()*4+2,
+
+            speedX:(Math.random()-0.5)*4,
+
+            rotation:Math.random()*360
+
+        });
+
+    }
+
+    animateConfetti();
+
+}
+
+function animateConfetti(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    particles.forEach(p=>{
+
+        p.y += p.speedY;
+        p.x += p.speedX;
+
+        ctx.save();
+
+        ctx.translate(
+            p.x,
+            p.y
+        );
+
+        ctx.rotate(
+            p.rotation * Math.PI / 180
+        );
+
+        const colors = [
+
+            "#22303F", // Yankees Blue
+            "#8FBFDA", // Dark Sky Blue
+            "#2C6485", // Bdazzled Blue
+            "#394A56", // Charcoal
+            "#E7E8E7"  // Platinum
+
+        ];
+
+        ctx.fillStyle =
+        colors[
+            Math.floor(
+                Math.random() * colors.length
+            )
+        ];
+
+        ctx.fillRect(
+            -p.size/2,
+            -p.size/2,
+            p.size,
+            p.size
+        );
+
+        ctx.restore();
+
+    });
+
+    particles =
+    particles.filter(
+        p => p.y < canvas.height + 50
+    );
+
+    if(particles.length > 0){
+
+        requestAnimationFrame(
+            animateConfetti
+        );
+
+    }
+
+}
 
 </script>
 
