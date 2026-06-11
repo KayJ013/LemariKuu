@@ -69,6 +69,7 @@ body{
 .main-content{
     flex:1;
     position:relative;
+    
 }
 
 .topbar{
@@ -91,6 +92,7 @@ body{
     padding:25px;
     border-radius:15px;
     box-shadow:0 2px 10px rgba(0,0,0,.05);
+    border-left:5px solid var(--dark-sky-blue);
 }
 
 /* CATEGORY FILTER */
@@ -107,15 +109,39 @@ body{
     color:white;
     padding:10px 25px;
     border-radius:30px;
-    transition:.3s;
+    cursor:pointer;
+
+    transition:
+        background .3s ease,
+        transform .3s ease,
+        box-shadow .3s ease;
 }
 
 .category-filter button:hover{
     background:var(--bdazzled-blue);
+    transform:translateY(-3px);
+    box-shadow:0 5px 15px rgba(44,100,133,.25);
 }
 
 .category-filter .active{
     background:var(--bdazzled-blue);
+    animation:bounce .4s ease;
+}
+
+@keyframes bounce{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.1);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
 }
 
 /* BUTTON */
@@ -355,3 +381,104 @@ body{
 
     z-index:1000;
 }
+
+/* WEATHER CARD */
+
+.weather-style-card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:20px 25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+
+    border-left:5px solid var(--dark-sky-blue);
+
+}
+
+.weather-info{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+}
+
+.weather-left h5{
+
+    margin:0;
+
+    color:var(--charcoal);
+
+    font-weight:600;
+
+}
+
+.weather-left p{
+
+    margin:0;
+
+    color:#777;
+
+}
+
+.weather-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.weather-icon{
+
+    font-size:40px;
+
+}
+
+.weather-right h4{
+
+    color:var(--bdazzled-blue);
+
+    font-weight:700;
+
+}
+
+.style-tip{
+
+    background:rgba(143,191,218,.12);
+
+    padding:15px;
+
+    border-radius:12px;
+
+}
+
+.style-tip strong{
+
+    display:block;
+
+    color:var(--bdazzled-blue);
+
+    margin-bottom:5px;
+
+}
+
+.style-tip p{
+
+    color:var(--charcoal);
+
+    font-size:14px;
+
+}
+

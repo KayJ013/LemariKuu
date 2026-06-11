@@ -15,6 +15,32 @@
 
 </head>
 
+<script>
+
+const today = new Date();
+
+document.getElementById("currentDay")
+.textContent =
+today.toLocaleDateString(
+    "en-US",
+    {
+        weekday:"long"
+    }
+);
+
+document.getElementById("currentDate")
+.textContent =
+today.toLocaleDateString(
+    "en-US",
+    {
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+    }
+);
+
+</script>
+
 <body>
 
 <div class="wrapper">
@@ -74,6 +100,60 @@
 
         <!-- CONTENT -->
         <div class="content-area">
+
+            <!-- WEATHER + STYLE TIP CARD -->
+
+            <div class="weather-style-card mb-4">
+
+                <div class="weather-info">
+
+                    <div class="weather-left">
+
+                        <h5 id="currentDay">
+                            Thursday
+                        </h5>
+
+                        <p id="currentDate">
+                            June 11, 2026
+                        </p>
+
+                    </div>
+
+                    <div class="weather-right">
+
+                        <div class="weather-icon">
+                            ☀️
+                        </div>
+
+                        <div>
+
+                            <h4 class="mb-0">
+                                31°C
+                            </h4>
+
+                            <small>
+                                Sunny
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="style-tip">
+
+                    <strong>
+                        Today's Style Tip
+                    </strong>
+
+                    <p class="mb-0">
+                        Light colors work best for warm weather and help keep your outfit feeling fresh throughout the day.
+                    </p>
+
+                </div>
+
+            </div>
 
             <div class="content-card">
 
@@ -483,6 +563,22 @@ document
     cards.forEach(card =>
         container.appendChild(card)
     );
+
+});
+
+document
+.querySelectorAll('.category-btn')
+.forEach(button=>{
+
+    button.addEventListener('click',function(){
+
+        document
+        .querySelectorAll('.category-btn')
+        .forEach(btn=>btn.classList.remove('active'));
+
+        this.classList.add('active');
+
+    });
 
 });
 
