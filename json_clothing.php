@@ -1,4 +1,6 @@
 <?php
+// Set header agar browser tahu ini adalah file JSON murni
+header('Content-Type: application/json');
 
 $wardrobe = [
     [
@@ -15,7 +17,7 @@ $wardrobe = [
         "category" => "bottoms",
         "color" => "neutral",
         "style" => "sporty",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Brown Hoodie",
@@ -23,7 +25,7 @@ $wardrobe = [
         "category" => "outerwears",
         "color" => "earth",
         "style" => "streetwear",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Blue Shirt",
@@ -31,7 +33,7 @@ $wardrobe = [
         "category" => "tops",
         "color" => "cool",
         "style" => "formal",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Silver Watch",
@@ -39,7 +41,7 @@ $wardrobe = [
         "category" => "accessories",
         "color" => "neutral",
         "style" => "formal",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Gold Necklace",
@@ -47,7 +49,7 @@ $wardrobe = [
         "category" => "accessories",
         "color" => "warm",
         "style" => "vintage",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Khaki Shorts",
@@ -55,7 +57,7 @@ $wardrobe = [
         "category" => "bottoms",
         "color" => "earth",
         "style" => "casual",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Navy Blazer",
@@ -63,7 +65,7 @@ $wardrobe = [
         "category" => "outerwears",
         "color" => "cool",
         "style" => "business",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Bomber Jacket",
@@ -71,7 +73,7 @@ $wardrobe = [
         "category" => "outerwears",
         "color" => "neutral",
         "style" => "streetwear",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Denim Jacket",
@@ -79,7 +81,7 @@ $wardrobe = [
         "category" => "outerwears",
         "color" => "cool",
         "style" => "streetwear",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Khaki Chinos",
@@ -87,7 +89,7 @@ $wardrobe = [
         "category" => "bottoms",
         "color" => "earth",
         "style" => "casual",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Blue Jeans",
@@ -95,7 +97,7 @@ $wardrobe = [
         "category" => "bottoms",
         "color" => "cool",
         "style" => "streetwear",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "White T-Shirt",
@@ -103,7 +105,7 @@ $wardrobe = [
         "category" => "tops",
         "color" => "neutral",
         "style" => "casual",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Black T-Shirt",
@@ -111,7 +113,7 @@ $wardrobe = [
         "category" => "tops",
         "color" => "neutral",
         "style" => "casual",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "White Shirt",
@@ -119,7 +121,7 @@ $wardrobe = [
         "category" => "tops",
         "color" => "neutral",
         "style" => "formal",
-        "has_edit" => false
+        "has_edit" => true
     ],
     [
         "name" => "Black Hat",
@@ -127,9 +129,8 @@ $wardrobe = [
         "category" => "accessories",
         "color" => "neutral",
         "style" => "casual",
-        "has_edit" => false
-    ],
-
+        "has_edit" => true
+    ]
 ];
 
 echo json_encode($wardrobe, JSON_PRETTY_PRINT);

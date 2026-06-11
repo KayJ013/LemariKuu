@@ -15,32 +15,6 @@
 
 </head>
 
-<script>
-
-const today = new Date();
-
-document.getElementById("currentDay")
-.textContent =
-today.toLocaleDateString(
-    "en-US",
-    {
-        weekday:"long"
-    }
-);
-
-document.getElementById("currentDate")
-.textContent =
-today.toLocaleDateString(
-    "en-US",
-    {
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    }
-);
-
-</script>
-
 <body>
 
 <div class="wrapper">
@@ -293,110 +267,104 @@ today.toLocaleDateString(
 </a>
 
 <script>
-let selectedCategory = "all";
-const categoryButtons = document.querySelectorAll(".category-btn");
-const colorFilter = document.getElementById("colorFilter");
-const styleFilter = document.getElementById("styleFilter");
-const container = document.getElementById("wardrobeContainer"); 
+document.addEventListener("DOMContentLoaded", () => {
 
-// =====
-// FETCH
-// =====
-fetch('json_clothing.php')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Gagal mengambil data dari server lokal');
-        }
-        return response.json(); 
-    })
-    .then(data => {
-        container.innerHTML = ""; 
+    const today = new Date();
+    document.getElementById("currentDay").textContent = today.toLocaleDateString("en-US", { weekday: "long" });
+    document.getElementById("currentDate").textContent = today.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
-        data.forEach(item => {
-            const editAction = item.has_edit ? `
-                <div class="card-actions">
-                    <a href="edit-clothing.html" class="edit-btn">
-                        <i class="fa-solid fa-pen"></i>
-                    </a>
-                </div>
-            ` : '';
+    let selectedCategory = "all";
+    const categoryButtons = document.querySelectorAll(".category-btn");
+    const colorFilter = document.getElementById("colorFilter");
+    const styleFilter = document.getElementById("styleFilter");
+    const container = document.getElementById("wardrobeContainer"); 
 
-            const cardHTML = `
-                <div class="col-lg-3 col-md-4 clothing-item"
-                     data-category="${item.category}"
-                     data-color="${item.color}"
-                     data-style="${item.style}">
-                    <div class="wardrobe-card">
-                        <img src="${item.image}" class="img-fluid">
-                        <p>${item.name}</p>
-                        ${editAction}
+    // FETCH
+    fetch('json_clothing.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Gagal mengambil data dari server lokal');
+            }
+            return response.json(); 
+        })
+        .then(data => {
+            container.innerHTML = ""; 
+
+            data.forEach(item => {
+                const editAction = item.has_edit ? `
+                    <div class="card-actions">
+                        <a href="edit-clothing.html?name=${encodeURIComponent(item.name)}" class="edit-btn">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
                     </div>
-                </div>
-            `;
-            container.innerHTML += cardHTML;
+                ` : '';
+
+                const cardHTML = `
+                    <div class="col-lg-3 col-md-4 clothing-item"
+                         data-category="${item.category}"
+                         data-color="${item.color}"
+                         data-style="${item.style}">
+                        <div class="wardrobe-card">
+                            <img src="${item.image}" class="img-fluid">
+                            <p>${item.name}</p>
+                            ${editAction}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+
+            initFilterEvents();
+        })
+        .catch(error => console.error("Eror memuat data:", error));
+
+    // FILTER LOGIC
+    function applyFilters(){
+        const items = document.querySelectorAll(".clothing-item");
+        const selectedColor = colorFilter.value;
+        const selectedStyle = styleFilter.value;
+
+        items.forEach(item => {
+            const category = item.dataset.category;
+            const color = item.dataset.color;
+            const style = item.dataset.style;
+
+            const categoryMatch = selectedCategory === "all" || category === selectedCategory;
+            const colorMatch = selectedColor === "all" || color === selectedColor;
+            const styleMatch = selectedStyle === "all" || style === selectedStyle;
+
+            item.style.display = categoryMatch && colorMatch && styleMatch ? "block" : "none";
+        });
+    }
+
+    // EVENT LISTENER FILTER
+    function initFilterEvents() {
+        categoryButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                categoryButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                selectedCategory = button.dataset.category;
+                applyFilters();
+            });
         });
 
-        initFilterEvents();
-    })
-    .catch(error => console.error("Eror memuat data:", error));
+        colorFilter.addEventListener("change", applyFilters);
+        styleFilter.addEventListener("change", applyFilters);
+    }
 
-
-// ======
-// FILTER
-// ======
-function applyFilters(){
-    const items = document.querySelectorAll(".clothing-item");
-    const selectedColor = colorFilter.value;
-    const selectedStyle = styleFilter.value;
-
-    items.forEach(item => {
-        const category = item.dataset.category;
-        const color = item.dataset.color;
-        const style = item.dataset.style;
-
-        const categoryMatch = selectedCategory === "all" || category === selectedCategory;
-        const colorMatch = selectedColor === "all" || color === selectedColor;
-        const styleMatch = selectedStyle === "all" || style === selectedStyle;
-
-        item.style.display = categoryMatch && colorMatch && styleMatch ? "block" : "none";
-    });
-}
-
-
-// ==============
-// EVENT LISTENER
-// ==============
-function initFilterEvents() {
-    categoryButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            categoryButtons.forEach(btn => btn.classList.remove("active"));
-            button.classList.add("active");
-            selectedCategory = button.dataset.category;
-            applyFilters();
+    // SHUFFLE
+    document.getElementById("shuffleBtn").addEventListener("click", () => {
+        const items = document.querySelectorAll(".clothing-item");
+        items.forEach(item => {
+            item.classList.remove('shuffle-animation');
+            void item.offsetWidth; 
+            item.classList.add('shuffle-animation');
         });
+
+        const cards = Array.from(container.children);
+        cards.sort(() => Math.random() - 0.5);
+        cards.forEach(card => container.appendChild(card));
     });
-
-    colorFilter.addEventListener("change", applyFilters);
-    styleFilter.addEventListener("change", applyFilters);
-}
-
-
-// =======
-// SHUFFLE
-// =======
-document.getElementById("shuffleBtn").addEventListener("click", () => {
-    // Jalankan efek animasi shuffle card jika ada kelasnya di CSS
-    const items = document.querySelectorAll(".clothing-item");
-    items.forEach(item => {
-        item.classList.remove('shuffle-animation');
-        void item.offsetWidth; 
-        item.classList.add('shuffle-animation');
-    });
-
-    // Proses mengacak urutan card di dalam container
-    const cards = Array.from(container.children);
-    cards.sort(() => Math.random() - 0.5);
-    cards.forEach(card => container.appendChild(card));
 });
 </script>
 

@@ -16,7 +16,6 @@
 
 <div class="wrapper">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <div class="logo">
@@ -64,7 +63,6 @@
 
     </aside>
 
-    <!-- MAIN -->
     <main class="main-content">
 
         <div class="topbar">
@@ -83,12 +81,11 @@
 
                     <div class="row">
 
-                        <!-- IMAGE -->
                         <div class="col-lg-3">
 
                             <img
                             id="preview"
-                            src="images/top1.jpg"
+                            src="images/top1.png"
                             class="img-fluid border rounded mb-3">
 
                             <input
@@ -98,7 +95,6 @@
 
                         </div>
 
-                        <!-- FORM -->
                         <div class="col-lg-4">
 
                             <label class="form-label">
@@ -107,25 +103,23 @@
 
                             <input
                             type="text"
+                            id="clothesName"
                             class="form-control"
-                            value="White Shirt">
+                            value="">
 
                             <label class="form-label mt-3">
                                 Category
                             </label>
 
-                            <select class="form-select">
-
-                                <option selected>Tops</option>
-                                <option>Bottoms</option>
-                                <option>Outerwears</option>
-                                <option>Accessories</option>
-
+                            <select id="clothesCategory" class="form-select">
+                                <option value="tops">Tops</option>
+                                <option value="bottoms">Bottoms</option>
+                                <option value="outerwears">Outerwears</option>
+                                <option value="accessories">Accessories</option>
                             </select>
 
                         </div>
 
-                        <!-- STYLE -->
                         <div class="col-lg-2">
 
                             <h6 class="mb-3">
@@ -133,7 +127,7 @@
                             </h6>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" checked>
+                                <input class="form-check-input" type="checkbox">
                                 <label class="form-check-label">Casual</label>
                             </div>
 
@@ -164,7 +158,6 @@
 
                         </div>
 
-                        <!-- COLOR -->
                         <div class="col-lg-3">
 
                             <h6 class="mb-3">
@@ -172,7 +165,7 @@
                             </h6>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" checked>
+                                <input class="form-check-input" type="checkbox">
                                 <label class="form-check-label">Warm Tones</label>
                             </div>
 
@@ -230,30 +223,75 @@
 </div>
 
 <script>
+const urlParams = new URLSearchParams(window.location.search);
+const clothingNameURL = urlParams.get('name');
+
+let currentItemData = null;
+
+if (clothingNameURL) {
+    fetch('json_clothing.php')
+        .then(response => response.json())
+        .then(data => {
+            // Kita bersihkan spasi di URL untuk dicocokkan (misal "blue shirt" atau "blueshirt" jadi "blueshirt")
+            const cleanURLName = clothingNameURL.replace(/\s+/g, '').toLowerCase();
+
+            const item = data.find(clothing => {
+                const cleanJSONName = clothing.name.replace(/\s+/g, '').toLowerCase();
+                return cleanJSONName === cleanURLName;
+            });
+            
+            if (item) {
+                currentItemData = item;
+                populateForm(item);
+            } else {
+                console.error("Data pakaian tidak ditemukan untuk nama: " + clothingNameURL);
+            }
+        })
+        .catch(error => console.error("Gagal mengambil data pakaian:", error));
+}
+
+function populateForm(item) {
+    document.getElementById("preview").src = item.image;
+    document.getElementById("clothesName").value = item.name;
+    document.getElementById("clothesCategory").value = item.category.toLowerCase();
+
+    const styleCheckboxes = document.querySelectorAll('.col-lg-2 .form-check-input');
+    styleCheckboxes.forEach(cb => {
+        const labelText = cb.nextElementSibling.textContent.trim().toLowerCase();
+        const itemStyle = item.style.toLowerCase();
+        
+        cb.checked = itemStyle.includes(labelText) || labelText.includes(itemStyle);
+    });
+
+    const colorCheckboxes = document.querySelectorAll('.col-lg-3 .form-check-input');
+    colorCheckboxes.forEach(cb => {
+        const labelText = cb.nextElementSibling.textContent.trim().toLowerCase();
+        const itemColor = item.color.toLowerCase();
+
+        if (labelText.includes('warm') && itemColor.includes('warm')) cb.checked = true;
+        else if (labelText.includes('cool') && itemColor.includes('cool')) cb.checked = true;
+        else if (labelText.includes('earth') && itemColor.includes('earth')) cb.checked = true;
+        else if (labelText.includes('neutral') && itemColor.includes('neutral')) cb.checked = true;
+        else if (labelText.includes('pastel') && itemColor.includes('pastel')) cb.checked = true;
+        else if (labelText.includes('metallic') && itemColor.includes('metallic')) cb.checked = true;
+        else cb.checked = false;
+    });
+}
 
 function previewImage(event){
-
     const reader = new FileReader();
-
     reader.onload = function(){
-
-        document.getElementById("preview").src =
-        reader.result;
-
+        document.getElementById("preview").src = reader.result;
     }
-
-    reader.readAsDataURL(
-        event.target.files[0]
-    );
-
+    if(event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0]);
+    }
 }
 
 function saveChanges(){
-
-    alert("Changes saved successfully!");
-
+    alert("Changes saved successfully for: " + clothingNameURL);
+    window.location.href = "index.html";
 }
-
 </script>
 
 </body>
