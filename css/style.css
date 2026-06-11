@@ -605,3 +605,24 @@ body{
     }
 
 }
+
+/* DONATE CLOTHES */
+
+.location-card h5{
+    color:var(--bdazzled-blue);
+    font-weight:600;
+}
+
+.location-card p{
+    font-size:14px;
+    color:#666;
+    margin-bottom:15px;
+}
+
+.location-card{
+    transition:.3s;
+}
+
+.location-card:hover{
+    transform:translateY(-3px);
+}

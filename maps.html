@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Donate Clothes</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<script>
+
+if(!sessionStorage.getItem("isLoggedIn")){
+    window.location.href = "login.html";
+}
+
+function logout(){
+
+    sessionStorage.removeItem("isLoggedIn");
+    window.location.href = "login.html";
+
+}
+
+</script>
+
+<div class="wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            Lemari<span>Kuu</span>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="index.html">
+                    <i class="fa-solid fa-shirt"></i>
+                    My Wardrobe
+                </a>
+            </li>
+
+            <li>
+                <a href="outfit-generator.html">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Outfit Generator
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="maps.html">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    Donate Clothes
+                </a>
+            </li>
+
+            <li>
+                <a href="profile.html">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </a>
+            </li>
+
+            <li>
+                <a href="#" onclick="logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Exit
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <div class="topbar">
+
+            <h5 class="mb-0">
+                Donate Clothes
+            </h5>
+
+        </div>
+
+        <div class="content-area">
+
+            <!-- BANNER -->
+
+            <div class="content-card mb-4">
+
+                <h3>
+                    Give Your Clothes a Second Life ♻️
+                </h3>
+
+                <p class="mb-0">
+                    Donate clothes you no longer wear and help people in need while reducing textile waste.
+                </p>
+
+            </div>
+
+            <!-- MAP + LIST -->
+
+            <div class="row g-4">
+
+                <!-- MAP -->
+
+                <div class="col-lg-8">
+
+                    <div class="content-card">
+
+                        <h4 class="mb-3">
+                            Donation Locations
+                        </h4>
+
+                        <iframe
+                            width="100%"
+                            height="500"
+                            style="border:0;border-radius:15px;"
+                            loading="lazy"
+                            allowfullscreen
+                            src="https://maps.google.com/maps?q=Pasar%20Minggu%20Jakarta&t=&z=13&ie=UTF8&iwloc=&output=embed">
+                        </iframe>
+
+                    </div>
+
+                </div>
+
+                <!-- LIST -->
+
+                <div class="col-lg-4">
+
+                    <div class="content-card">
+
+                        <h4 class="mb-4">
+                            Nearby Locations
+                        </h4>
+
+                        <div class="location-card">
+
+                            <h5>
+                                Panti Asuhan Harapan Bangsa
+                            </h5>
+
+                            <p>
+                                Clothing donations accepted for children and teenagers.
+                            </p>
+
+                            <button
+                                class="btn generate-btn w-100"
+                                onclick="openLocation('Panti Asuhan Harapan Bangsa Jakarta')">
+
+                                View Location
+
+                            </button>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="location-card">
+
+                            <h5>
+                                Rumah Yatim Jakarta Selatan
+                            </h5>
+
+                            <p>
+                                Accepts clothing, books, and household donations.
+                            </p>
+
+                            <button
+                                class="btn generate-btn w-100"
+                                onclick="openLocation('Rumah Yatim Jakarta Selatan')">
+
+                                View Location
+
+                            </button>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="location-card">
+
+                            <h5>
+                                Pasar Senen Thrift Center
+                            </h5>
+
+                            <p>
+                                Sell or donate preloved clothes in good condition.
+                            </p>
+
+                            <button
+                                class="btn generate-btn w-100"
+                                onclick="openLocation('Pasar Senen Jakarta')">
+
+                                View Location
+
+                            </button>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="location-card">
+
+                            <h5>
+                                Bank Sampah Tekstil Jakarta
+                            </h5>
+
+                            <p>
+                                Textile recycling for damaged or unusable clothing.
+                            </p>
+
+                            <button
+                                class="btn generate-btn w-100"
+                                onclick="openLocation('Bank Sampah Jakarta')">
+
+                                View Location
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+function openLocation(place){
+
+    window.open(
+        "https://www.google.com/maps/search/" +
+        encodeURIComponent(place),
+        "_blank"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
