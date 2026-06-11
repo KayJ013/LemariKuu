@@ -217,24 +217,22 @@ let selectedCategory = "all";
 const categoryButtons = document.querySelectorAll(".category-btn");
 const colorFilter = document.getElementById("colorFilter");
 const styleFilter = document.getElementById("styleFilter");
-const container = document.getElementById("wardrobeContainer"); // Tambahkan variabel container ini
+const container = document.getElementById("wardrobeContainer"); 
 
-// =========================================================================
-// BAGIAN 1: (DITAMBAHKAN) - FUNGSI FETCH UNTUK MENARIK DATA JSON DARI PHP
-// =========================================================================
+// =====
+// FETCH
+// =====
 fetch('json_clothing.php')
     .then(response => {
         if (!response.ok) {
             throw new Error('Gagal mengambil data dari server lokal');
         }
-        return response.json(); // Mengubah string JSON dari PHP menjadi Object JS
+        return response.json(); 
     })
     .then(data => {
-        container.innerHTML = ""; // Memastikan container bersih sebelum digambar
+        container.innerHTML = ""; 
 
-        // Melakukan looping untuk mencetak card pakaian satu per satu
         data.forEach(item => {
-            // Logika tombol edit khusus jika item memiliki properti has_edit true
             const editAction = item.has_edit ? `
                 <div class="card-actions">
                     <a href="edit-clothing.html" class="edit-btn">
@@ -243,7 +241,6 @@ fetch('json_clothing.php')
                 </div>
             ` : '';
 
-            // Kerangka HTML card pembungkus foto pakaian kamu
             const cardHTML = `
                 <div class="col-lg-3 col-md-4 clothing-item"
                      data-category="${item.category}"
@@ -259,18 +256,15 @@ fetch('json_clothing.php')
             container.innerHTML += cardHTML;
         });
 
-        // PENTING: Jalankan fungsi penangkap event filter SETELAH card selesai digambar
         initFilterEvents();
     })
     .catch(error => console.error("Eror memuat data:", error));
 
 
-// =========================================================================
-// BAGIAN 2: (DIGANTI) - LOGIKA FUNGSI FILTER UTAMA
-// =========================================================================
+// ======
+// FILTER
+// ======
 function applyFilters(){
-    // Variabel 'items' digeser ke dalam fungsi agar bisa mendeteksi elemen 
-    // .clothing-item baru yang dibuat secara realtime oleh fetch() di atas
     const items = document.querySelectorAll(".clothing-item");
     const selectedColor = colorFilter.value;
     const selectedStyle = styleFilter.value;
@@ -289,10 +283,9 @@ function applyFilters(){
 }
 
 
-// =========================================================================
-// BAGIAN 3: (DITAMBAHKAN) - BUNGKUSAN EVENT LISTENER FILTER
-// =========================================================================
-// Fungsi ini dipanggil di dalam fetch() setelah elemen HTML pakaian selesai dirender
+// ==============
+// EVENT LISTENER
+// ==============
 function initFilterEvents() {
     categoryButtons.forEach(button => {
         button.addEventListener("click", () => {
@@ -308,9 +301,9 @@ function initFilterEvents() {
 }
 
 
-// =========================================================================
-// BAGIAN 4: (TETAP SAMA) - LOGIKA SHUFFLE BAWAAN KAMU
-// =========================================================================
+// =======
+// SHUFFLE
+// =======
 document.getElementById("shuffleBtn").addEventListener("click", () => {
     const cards = Array.from(container.children);
     cards.sort(() => Math.random() - 0.5);

@@ -1,8 +1,5 @@
 <?php
 
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *"); 
-
 $wardrobe = [
     [
         "nama" => "Orange T-Shirt",
