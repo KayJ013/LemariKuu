@@ -164,7 +164,7 @@ let lastIndex = -1;
 // Kombinasi Set
 const outfitSets = [
     { style: "Urban Look", top: "Black T-Shirt", bottom: "Black Pants", outer: "Denim Jacket" },
-    { style: "Smart Casual", top: "White T-Shirt", bottom: "Blue Jeans", outer: "Bomber Jacket" },
+    { style: "Smart Casual", top: "Blue Shirt", bottom: "Blue Jeans", outer: "" },
     { style: "Sporty Style", top: "White T-Shirt", bottom: "Khaki Shorts", outer: "Bomber Jacket" },
     { style: "Casual Streetwear", top: "White T-Shirt", bottom: "Blue Jeans", outer: "Denim Jacket" },
     { style: "Business Casual", top: "White Shirt", bottom: "Black Pants", outer: "Navy Blazer" },
@@ -226,11 +226,15 @@ function generateOutfit(){
     const outerNameElement = document.getElementById("outerName");
 
     if (outerData) {
+        outerImgElement.style.visibility = "visible";
         outerImgElement.style.display = "block";
         outerImgElement.src = outerData.image;
         outerNameElement.textContent = outerData.name;
     } else {
-        outerImgElement.style.display = "none";
+        outerImgElement.style.visibility = "hidden"; 
+        outerImgElement.style.display = "block";
+        outerImgElement.src = ""; 
+        
         outerNameElement.innerHTML = `<span class="text-muted small"><i>No Outerwear Needed</i></span>`;
     }
 
