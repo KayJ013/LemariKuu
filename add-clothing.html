@@ -15,6 +15,28 @@
 
 <body>
 
+<script>
+
+if(!sessionStorage.getItem("isLoggedIn")){
+
+    window.location.href =
+    "login.html";
+
+}
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "isLoggedIn"
+    );
+
+    window.location.href =
+    "login.html";
+
+}
+
+</script>
+
 <div class="wrapper">
 
     <!-- SIDEBAR -->
@@ -48,7 +70,14 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="profile.html">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </a>
+            </li>
+
+            <li>
+                <a href="#" onclick="logout()">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Exit
                 </a>

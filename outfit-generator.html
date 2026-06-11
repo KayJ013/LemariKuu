@@ -16,6 +16,28 @@
 
 <body>
 
+    <script>
+
+if(!sessionStorage.getItem("isLoggedIn")){
+
+    window.location.href =
+    "login.html";
+
+}
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "isLoggedIn"
+    );
+
+    window.location.href =
+    "login.html";
+
+}
+
+</script>
+
 <div class="wrapper">
 
     <aside class="sidebar">
@@ -41,18 +63,18 @@
             </li>
 
             <li>
-                <a href="#">
-                    <i class="fa-solid fa-user"></i>
-                    Profile
-                </a>
-            </li>
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+        Profile
+    </a>
+</li>
 
-            <li>
-                <a href="#">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Exit
-                </a>
-            </li>
+           <li>
+    <a href="#" onclick="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Exit
+    </a>
+</li>
 
         </ul>
 
@@ -235,7 +257,7 @@ function generateOutfit(){
         outerImgElement.style.display = "block";
         outerImgElement.src = ""; 
         
-        outerNameElement.innerHTML = `<span class="text-muted small"><i>No Outerwear Needed</i></span>`;
+        outerNameElement.innerHTML = <span class="text-muted small"><i>No Outerwear Needed</i></span>;
     }
 
     document.getElementById("outfitStyle").textContent = selected.style;

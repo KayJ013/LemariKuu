@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login - LemariKuu</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<style>
+
+:root{
+    --yankees-blue:#22303F;
+    --platinum:#E7E8E7;
+    --dark-sky-blue:#8FBFDA;
+    --bdazzled-blue:#2C6485;
+    --charcoal:#394A56;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-family:'Segoe UI',sans-serif;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--yankees-blue),
+        var(--bdazzled-blue)
+    );
+
+    overflow:hidden;
+
+}
+
+/* BACKGROUND BLOBS */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    background:
+    rgba(143,191,218,.25);
+
+    border-radius:50%;
+
+    top:-220px;
+    left:-150px;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    background:
+    rgba(255,255,255,.08);
+
+    border-radius:50%;
+
+    bottom:-180px;
+    right:-100px;
+
+}
+
+.login-wrapper{
+
+    width:1000px;
+    max-width:95%;
+
+    min-height:550px;
+
+    display:flex;
+
+    background:white;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,.2);
+
+    animation:showPage .8s ease;
+
+}
+
+@keyframes showPage{
+
+    from{
+
+        opacity:0;
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+/* LEFT */
+
+.left-panel{
+
+    flex:1;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--yankees-blue),
+        var(--bdazzled-blue)
+    );
+
+    color:white;
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    padding:60px;
+
+}
+
+.left-panel::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    background:
+    rgba(255,255,255,.08);
+
+    border-radius:50%;
+
+    top:-220px;
+    right:-180px;
+
+}
+
+.left-panel::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    background:
+    rgba(255,255,255,.06);
+
+    border-radius:50%;
+
+    bottom:-120px;
+    left:-120px;
+
+}
+
+.logo-icon{
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:
+    rgba(255,255,255,.15);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:38px;
+
+    margin-bottom:25px;
+
+    animation:float 3s ease-in-out infinite;
+
+}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+
+}
+
+.brand{
+
+    font-size:48px;
+    font-weight:700;
+
+}
+
+.brand span{
+
+    color:var(--dark-sky-blue);
+
+}
+
+.tagline{
+
+    margin-top:15px;
+
+    font-size:18px;
+
+    opacity:.9;
+
+    line-height:1.8;
+
+    max-width:400px;
+
+}
+
+/* RIGHT */
+
+.right-panel{
+
+    flex:1;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:50px;
+
+}
+
+.login-box{
+
+    width:100%;
+    max-width:360px;
+
+}
+
+.login-title{
+
+    font-size:36px;
+    font-weight:700;
+
+    color:var(--yankees-blue);
+
+    margin-bottom:10px;
+
+}
+
+.login-subtitle{
+
+    color:#777;
+
+    margin-bottom:35px;
+
+}
+
+.form-control{
+
+    padding:14px;
+
+    border-radius:15px;
+
+}
+
+.input-group-text{
+
+    border-radius:15px 0 0 15px;
+
+}
+
+.login-btn{
+
+    width:100%;
+
+    border:none;
+
+    padding:14px;
+
+    border-radius:30px;
+
+    background:var(--dark-sky-blue);
+
+    color:white;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.login-btn:hover{
+
+    background:var(--bdazzled-blue);
+
+    transform:translateY(-2px);
+
+}
+
+.footer-text{
+
+    text-align:center;
+
+    margin-top:20px;
+
+    color:#777;
+
+}
+
+.footer-text a{
+
+    text-decoration:none;
+
+    color:var(--bdazzled-blue);
+
+    font-weight:600;
+
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .login-wrapper{
+
+        flex-direction:column;
+
+    }
+
+    .left-panel{
+
+        padding:40px;
+
+    }
+
+    .brand{
+
+        font-size:38px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+```
+<div class="left-panel">
+
+    <div class="logo-icon">
+        <i class="fa-solid fa-shirt"></i>
+    </div>
+
+    <div class="brand">
+        Lemari<span>Kuu</span>
+    </div>
+
+    <div class="tagline">
+        Kelola koleksi pakaianmu dengan lebih mudah,
+        temukan kombinasi outfit terbaik,
+        dan tampil lebih percaya diri setiap hari.
+    </div>
+
+</div>
+
+<div class="right-panel">
+
+    <div class="login-box">
+
+        <div class="login-title">
+            Welcome Back!
+        </div>
+
+        <div class="login-subtitle">
+            Sign in to your wardrobe account.
+        </div>
+
+        <form onsubmit="login(event)">
+
+            <div class="mb-3">
+
+                <input
+                type="email"
+                class="form-control"
+                placeholder="Email"
+                required>
+
+            </div>
+
+            <div class="mb-4">
+
+                <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                required>
+
+            </div>
+
+            <button
+            type="submit"
+            class="login-btn">
+
+                <i class="fa-solid fa-right-to-bracket me-2"></i>
+                Login
+
+            </button>
+
+        </form>
+
+        <div class="footer-text">
+
+            Smart Wardrobe Management
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<script>
+
+function login(event){
+
+    event.preventDefault();
+
+    sessionStorage.setItem(
+        "isLoggedIn",
+        "true"
+    );
+
+    document.body.style.transition =
+    "opacity .5s";
+
+    document.body.style.opacity =
+    "0";
+
+    setTimeout(()=>{
+
+        window.location.href =
+        "index.html";
+
+    },500);
+
+}
+
+</script>
+
+</body>
+</html>
