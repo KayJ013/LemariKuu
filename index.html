@@ -193,161 +193,6 @@
                 <div class="row g-4"
                      id="wardrobeContainer">
 
-                    <!-- ITEM 1 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                        data-category="tops"
-                        data-color="warm"
-                        data-style="casual">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/top1.jpg"
-                                class="img-fluid">
-
-                            <p>Orange T-Shirt</p>
-
-                            <div class="card-actions">
-
-                                <a href="edit-clothing.html"
-                                class="edit-btn">
-
-                                    <i class="fa-solid fa-pen"></i>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM 2 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                         data-category="bottoms"
-                         data-color="neutral"
-                         data-style="sporty">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/pants1.jpg"
-                                 class="img-fluid">
-
-                            <p>Black Pants</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM 3 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                         data-category="outerwears"
-                         data-color="earth"
-                         data-style="streetwear">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/hoodie1.jpg"
-                                 class="img-fluid">
-
-                            <p>Brown Hoodie</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM 4 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                         data-category="tops"
-                         data-color="cool"
-                         data-style="formal">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/shirt1.jpg"
-                                 class="img-fluid">
-
-                            <p>Blue Shirt</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM 5 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                         data-category="accessories"
-                         data-color="neutral"
-                         data-style="formal">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/watch1.jpg"
-                                 class="img-fluid">
-
-                            <p>Silver Watch</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM 6 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                         data-category="accessories"
-                         data-color="warm"
-                         data-style="vintage">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/necklace1.jpg"
-                                 class="img-fluid">
-
-                            <p>Gold Necklace</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM 7 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                         data-category="bottoms"
-                         data-color="earth"
-                         data-style="casual">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/shorts1.jpg"
-                                 class="img-fluid">
-
-                            <p>Khaki Shorts</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM 8 -->
-
-                    <div class="col-lg-3 col-md-4 clothing-item"
-                         data-category="outerwears"
-                         data-color="cool"
-                         data-style="business">
-
-                        <div class="wardrobe-card">
-
-                            <img src="images/blazer1.jpg"
-                                 class="img-fluid">
-
-                            <p>Navy Blazer</p>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
             </div>
@@ -368,124 +213,109 @@
 </a>
 
 <script>
-
 let selectedCategory = "all";
+const categoryButtons = document.querySelectorAll(".category-btn");
+const colorFilter = document.getElementById("colorFilter");
+const styleFilter = document.getElementById("styleFilter");
+const container = document.getElementById("wardrobeContainer"); // Tambahkan variabel container ini
 
-const categoryButtons =
-document.querySelectorAll(".category-btn");
+// =========================================================================
+// BAGIAN 1: (DITAMBAHKAN) - FUNGSI FETCH UNTUK MENARIK DATA JSON DARI PHP
+// =========================================================================
+fetch('json_clothing.php')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Gagal mengambil data dari server lokal');
+        }
+        return response.json(); // Mengubah string JSON dari PHP menjadi Object JS
+    })
+    .then(data => {
+        container.innerHTML = ""; // Memastikan container bersih sebelum digambar
 
-const colorFilter =
-document.getElementById("colorFilter");
+        // Melakukan looping untuk mencetak card pakaian satu per satu
+        data.forEach(item => {
+            // Logika tombol edit khusus jika item memiliki properti has_edit true
+            const editAction = item.has_edit ? `
+                <div class="card-actions">
+                    <a href="edit-clothing.html" class="edit-btn">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                </div>
+            ` : '';
 
-const styleFilter =
-document.getElementById("styleFilter");
+            // Kerangka HTML card pembungkus foto pakaian kamu
+            const cardHTML = `
+                <div class="col-lg-3 col-md-4 clothing-item"
+                     data-category="${item.category}"
+                     data-color="${item.color}"
+                     data-style="${item.style}">
+                    <div class="wardrobe-card">
+                        <img src="${item.gambar}" class="img-fluid">
+                        <p>${item.nama}</p>
+                        ${editAction}
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
 
-const items =
-document.querySelectorAll(".clothing-item");
+        // PENTING: Jalankan fungsi penangkap event filter SETELAH card selesai digambar
+        initFilterEvents();
+    })
+    .catch(error => console.error("Eror memuat data:", error));
 
-/* FILTER */
 
+// =========================================================================
+// BAGIAN 2: (DIGANTI) - LOGIKA FUNGSI FILTER UTAMA
+// =========================================================================
 function applyFilters(){
-
-    const selectedColor =
-    colorFilter.value;
-
-    const selectedStyle =
-    styleFilter.value;
+    // Variabel 'items' digeser ke dalam fungsi agar bisa mendeteksi elemen 
+    // .clothing-item baru yang dibuat secara realtime oleh fetch() di atas
+    const items = document.querySelectorAll(".clothing-item");
+    const selectedColor = colorFilter.value;
+    const selectedStyle = styleFilter.value;
 
     items.forEach(item => {
+        const category = item.dataset.category;
+        const color = item.dataset.color;
+        const style = item.dataset.style;
 
-        const category =
-        item.dataset.category;
+        const categoryMatch = selectedCategory === "all" || category === selectedCategory;
+        const colorMatch = selectedColor === "all" || color === selectedColor;
+        const styleMatch = selectedStyle === "all" || style === selectedStyle;
 
-        const color =
-        item.dataset.color;
-
-        const style =
-        item.dataset.style;
-
-        const categoryMatch =
-        selectedCategory === "all" ||
-        category === selectedCategory;
-
-        const colorMatch =
-        selectedColor === "all" ||
-        color === selectedColor;
-
-        const styleMatch =
-        selectedStyle === "all" ||
-        style === selectedStyle;
-
-        item.style.display =
-        categoryMatch &&
-        colorMatch &&
-        styleMatch
-        ? "block"
-        : "none";
-
+        item.style.display = categoryMatch && colorMatch && styleMatch ? "block" : "none";
     });
-
 }
 
-/* CATEGORY */
 
-categoryButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        categoryButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        selectedCategory =
-        button.dataset.category;
-
-        applyFilters();
-
+// =========================================================================
+// BAGIAN 3: (DITAMBAHKAN) - BUNGKUSAN EVENT LISTENER FILTER
+// =========================================================================
+// Fungsi ini dipanggil di dalam fetch() setelah elemen HTML pakaian selesai dirender
+function initFilterEvents() {
+    categoryButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            categoryButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+            selectedCategory = button.dataset.category;
+            applyFilters();
+        });
     });
 
+    colorFilter.addEventListener("change", applyFilters);
+    styleFilter.addEventListener("change", applyFilters);
+}
+
+
+// =========================================================================
+// BAGIAN 4: (TETAP SAMA) - LOGIKA SHUFFLE BAWAAN KAMU
+// =========================================================================
+document.getElementById("shuffleBtn").addEventListener("click", () => {
+    const cards = Array.from(container.children);
+    cards.sort(() => Math.random() - 0.5);
+    cards.forEach(card => container.appendChild(card));
 });
-
-/* COLOR */
-
-colorFilter.addEventListener(
-"change",
-applyFilters
-);
-
-/* STYLE */
-
-styleFilter.addEventListener(
-"change",
-applyFilters
-);
-
-/* SHUFFLE */
-
-document
-.getElementById("shuffleBtn")
-.addEventListener("click", () => {
-
-    const container =
-    document.getElementById(
-        "wardrobeContainer"
-    );
-
-    const cards =
-    Array.from(container.children);
-
-    cards.sort(() =>
-        Math.random() - 0.5
-    );
-
-    cards.forEach(card =>
-        container.appendChild(card)
-    );
-
-});
-
 </script>
 
 </body>
