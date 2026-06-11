@@ -229,38 +229,33 @@ function randomItem(array){
 
 function generateOutfit(){
 
-    const top =
-    randomItem(tops);
+    // ANIMATION
+    document.querySelectorAll('.outfit-card')
+    .forEach(card=>{
 
-    const bottom =
-    randomItem(bottoms);
+        card.classList.remove('shuffle-animation');
 
-    const outer =
-    randomItem(outers);
+        void card.offsetWidth;
 
-    const style =
-    randomItem(styles);
+        card.classList.add('shuffle-animation');
 
-    document.getElementById("topImage").src =
-    top.image;
+    });
 
-    document.getElementById("topName").textContent =
-    top.name;
+    const top = randomItem(tops);
+    const bottom = randomItem(bottoms);
+    const outer = randomItem(outers);
+    const style = randomItem(styles);
 
-    document.getElementById("bottomImage").src =
-    bottom.image;
+    document.getElementById("topImage").src = top.image;
+    document.getElementById("topName").textContent = top.name;
 
-    document.getElementById("bottomName").textContent =
-    bottom.name;
+    document.getElementById("bottomImage").src = bottom.image;
+    document.getElementById("bottomName").textContent = bottom.name;
 
-    document.getElementById("outerImage").src =
-    outer.image;
+    document.getElementById("outerImage").src = outer.image;
+    document.getElementById("outerName").textContent = outer.name;
 
-    document.getElementById("outerName").textContent =
-    outer.name;
-
-    document.getElementById("outfitStyle").textContent =
-    style;
+    document.getElementById("outfitStyle").textContent = style;
 
 }
 
