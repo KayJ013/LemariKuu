@@ -354,22 +354,7 @@ function animateConfetti(){
             p.rotation * Math.PI / 180
         );
 
-        const colors = [
-
-            "#22303F", // Yankees Blue
-            "#8FBFDA", // Dark Sky Blue
-            "#2C6485", // Bdazzled Blue
-            "#394A56", // Charcoal
-            "#E7E8E7"  // Platinum
-
-        ];
-
-        ctx.fillStyle =
-        colors[
-            Math.floor(
-                Math.random() * colors.length
-            )
-        ];
+        ctx.fillStyle = `hsl(${Math.random()*360},80%,60%)`;
 
         ctx.fillRect(
             -p.size/2,
