@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Add Clothing</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            Lemari<span>Kuu</span>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="index.html">
+                    <i class="fa-solid fa-shirt"></i>
+                    My Wardrobe
+                </a>
+            </li>
+
+            <li>
+                <a href="outfit-generator.html">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Outfit Generator
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="add-clothing.html">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Clothing
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Exit
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <h5>Add Clothing</h5>
+        </div>
+
+        <div class="content-area">
+
+            <div class="content-card">
+
+                <h3 class="mb-4">
+                    Add New Clothing Item
+                </h3>
+
+                <form>
+
+                    <div class="row">
+
+                        <!-- IMAGE -->
+
+                        <div class="col-lg-3">
+
+                            <img
+                            id="preview"
+                            src="https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+                            class="img-fluid border rounded mb-3">
+
+                            <input
+                            type="file"
+                            class="form-control"
+                            onchange="previewImage(event)">
+
+                        </div>
+
+                        <!-- FORM -->
+
+                        <div class="col-lg-4">
+
+                            <label class="form-label">
+                                Clothes Name
+                            </label>
+
+                            <input
+                            type="text"
+                            class="form-control">
+
+                            <label class="form-label mt-3">
+                                Category
+                            </label>
+
+                            <select class="form-select">
+
+                                <option>Tops</option>
+                                <option>Bottoms</option>
+                                <option>Outerwears</option>
+                                <option>Accessories</option>
+
+                            </select>
+
+                        </div>
+
+                        <!-- STYLE -->
+
+                        <div class="col-lg-2">
+
+                            <h6 class="mb-3">
+                                Style
+                            </h6>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Casual</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Formal</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Business</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Streetwear</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Sporty</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Vintage</label>
+                            </div>
+
+                        </div>
+
+                        <!-- COLOR -->
+
+                        <div class="col-lg-3">
+
+                            <h6 class="mb-3">
+                                Color
+                            </h6>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Warm Tones</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Cool Tones</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Earth Tones</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Neutrals</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Pastels</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                                <label class="form-check-label">Metallics</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="text-center mt-5">
+
+                        <button
+                        type="submit"
+                        class="btn generate-btn">
+
+                            <i class="fa-solid fa-plus me-2"></i>
+                            Add Clothing
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+    const reader = new FileReader();
+
+    reader.onload = function(){
+
+        document.getElementById("preview").src =
+        reader.result;
+
+    }
+
+    reader.readAsDataURL(
+        event.target.files[0]
+    );
+
+}
+
+</script>
+
+</body>
+</html>
