@@ -62,6 +62,13 @@ function logout(){
                 </a>
             </li>
 
+<li>
+    <a href="maps.html">
+        <i class="fa-solid fa-map-location-dot"></i>
+        Donate Clothes
+    </a>
+</li>
+
             <li>
     <a href="profile.html">
         <i class="fa-solid fa-user"></i>
@@ -69,12 +76,6 @@ function logout(){
     </a>
 </li>
 
-<li>
-    <a href="maps.html">
-        <i class="fa-solid fa-map-location-dot"></i>
-        Donate Clothes
-    </a>
-</li>
 
            <li>
     <a href="#" onclick="logout()">
@@ -261,7 +262,7 @@ function generateOutfit(){
         outerImgElement.style.display = "block";
         outerImgElement.src = ""; 
         
-        outerNameElement.innerHTML = '<span class="text-muted small"><i>No Outerwear Needed</i></span>';
+       outerNameElement.innerHTML = '<span class="text-muted small"><i>No Outerwear Needed</i></span>';
     }
 
     document.getElementById("outfitStyle").textContent = selected.style;
