@@ -213,9 +213,6 @@ fetch('json_clothing.php')
 // ===============
 // GENERATE OUTFIT
 // ===============
-// ===============
-// GENERATE OUTFIT
-// ===============
 function generateOutfit(){
     if (totalWardrobe.length === 0) return;
 
@@ -264,7 +261,7 @@ function generateOutfit(){
         outerImgElement.style.display = "block";
         outerImgElement.src = ""; 
         
-        outerNameElement.innerHTML = <span class="text-muted small"><i>No Outerwear Needed</i></span>;
+        outerNameElement.innerHTML = '<span class="text-muted small"><i>No Outerwear Needed</i></span>';
     }
 
     document.getElementById("outfitStyle").textContent = selected.style;
