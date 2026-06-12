@@ -422,36 +422,34 @@ body::after{
 
         <form onsubmit="login(event)">
 
-            <div class="mb-3">
+    <div class="mb-3">
+        <input
+        id="email"
+        type="email"
+        class="form-control"
+        placeholder="Email"
+        required>
+    </div>
 
-                <input
-                type="email"
-                class="form-control"
-                placeholder="Email"
-                required>
+    <div class="mb-4">
+        <input
+        id="password"
+        type="password"
+        class="form-control"
+        placeholder="Password"
+        required>
+    </div>
 
-            </div>
+    <button
+    type="submit"
+    class="login-btn">
 
-            <div class="mb-4">
+        <i class="fa-solid fa-right-to-bracket me-2"></i>
+        Login
 
-                <input
-                type="password"
-                class="form-control"
-                placeholder="Password"
-                required>
+    </button>
 
-            </div>
-
-            <button
-            type="submit"
-            class="login-btn">
-
-                <i class="fa-solid fa-right-to-bracket me-2"></i>
-                Login
-
-            </button>
-
-        </form>
+</form>
 
         <div class="footer-text">
 
@@ -468,27 +466,99 @@ body::after{
 
 <script>
 
-function login(event){
+async function login(event){
 
     event.preventDefault();
 
-    sessionStorage.setItem(
-        "isLoggedIn",
-        "true"
-    );
+    const email =
+        document.getElementById("email").value;
 
-    document.body.style.transition =
-    "opacity .5s";
+    const password =
+        document.getElementById("password").value;
 
-    document.body.style.opacity =
-    "0";
+    try{
 
-    setTimeout(()=>{
+        const response =
+            await fetch("login-data.xml");
 
-        window.location.href =
-        "index.html";
+        const xmlText =
+            await response.text();
 
-    },500);
+        const parser =
+            new DOMParser();
+
+        const xml =
+            parser.parseFromString(
+                xmlText,
+                "text/xml"
+            );
+
+        const users =
+            xml.getElementsByTagName("user");
+
+        let validLogin = false;
+
+        for(let i = 0; i < users.length; i++){
+
+            const xmlEmail =
+                users[i]
+                .getElementsByTagName("email")[0]
+                .textContent;
+
+            const xmlPassword =
+                users[i]
+                .getElementsByTagName("password")[0]
+                .textContent;
+
+            if(
+                email === xmlEmail &&
+                password === xmlPassword
+            ){
+
+                validLogin = true;
+                break;
+
+            }
+
+        }
+
+        if(validLogin){
+
+            sessionStorage.setItem(
+                "isLoggedIn",
+                "true"
+            );
+
+            document.body.style.transition =
+                "opacity .5s";
+
+            document.body.style.opacity =
+                "0";
+
+            setTimeout(()=>{
+
+                window.location.href =
+                    "index.html";
+
+            },500);
+
+        }else{
+
+            alert(
+                "Email atau password salah!"
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Gagal membaca login-data.xml"
+        );
+
+    }
 
 }
 

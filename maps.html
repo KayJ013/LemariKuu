@@ -11,6 +11,30 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+
+#map{
+    height:500px;
+    width:100%;
+    border-radius:15px;
+}
+
+.location-card h5{
+    color:#22303F;
+}
+
+.location-card p{
+    color:#666;
+    font-size:14px;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -93,8 +117,6 @@ function logout(){
 
         <div class="content-area">
 
-            <!-- BANNER -->
-
             <div class="content-card mb-4">
 
                 <h3>
@@ -106,8 +128,6 @@ function logout(){
                 </p>
 
             </div>
-
-            <!-- MAP + LIST -->
 
             <div class="row g-4">
 
@@ -121,14 +141,7 @@ function logout(){
                             Donation Locations
                         </h4>
 
-                        <iframe
-                            width="100%"
-                            height="500"
-                            style="border:0;border-radius:15px;"
-                            loading="lazy"
-                            allowfullscreen
-                            src="https://maps.google.com/maps?q=Pasar%20Minggu%20Jakarta&t=&z=13&ie=UTF8&iwloc=&output=embed">
-                        </iframe>
+                        <div id="map"></div>
 
                     </div>
 
@@ -156,7 +169,7 @@ function logout(){
 
                             <button
                                 class="btn generate-btn w-100"
-                                onclick="openLocation('Panti Asuhan Harapan Bangsa Jakarta')">
+                                onclick="focusLocation(-6.2297,106.8330)">
 
                                 View Location
 
@@ -178,7 +191,7 @@ function logout(){
 
                             <button
                                 class="btn generate-btn w-100"
-                                onclick="openLocation('Rumah Yatim Jakarta Selatan')">
+                                onclick="focusLocation(-6.2615,106.8106)">
 
                                 View Location
 
@@ -200,7 +213,7 @@ function logout(){
 
                             <button
                                 class="btn generate-btn w-100"
-                                onclick="openLocation('Pasar Senen Jakarta')">
+                                onclick="focusLocation(-6.1749,106.8427)">
 
                                 View Location
 
@@ -222,7 +235,7 @@ function logout(){
 
                             <button
                                 class="btn generate-btn w-100"
-                                onclick="openLocation('Bank Sampah Jakarta')">
+                                onclick="focusLocation(-6.2000,106.8450)">
 
                                 View Location
 
@@ -242,15 +255,41 @@ function logout(){
 
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
 
-function openLocation(place){
+var map = L.map('map').setView(
+    [-6.2297,106.8330],
+    11
+);
 
-    window.open(
-        "https://www.google.com/maps/search/" +
-        encodeURIComponent(place),
-        "_blank"
-    );
+L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+        attribution:'© OpenStreetMap'
+    }
+).addTo(map);
+
+L.marker([-6.2297,106.8330])
+.addTo(map)
+.bindPopup("Panti Asuhan Harapan Bangsa");
+
+L.marker([-6.2615,106.8106])
+.addTo(map)
+.bindPopup("Rumah Yatim Jakarta Selatan");
+
+L.marker([-6.1749,106.8427])
+.addTo(map)
+.bindPopup("Pasar Senen Thrift Center");
+
+L.marker([-6.2000,106.8450])
+.addTo(map)
+.bindPopup("Bank Sampah Tekstil Jakarta");
+
+function focusLocation(lat,lng){
+
+    map.setView([lat,lng],15);
 
 }
 
