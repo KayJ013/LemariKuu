@@ -100,25 +100,25 @@ function logout(){
 
     <div class="content-area">
 
-        <div class="content-card">
+    <div class="content-card">
     <div class="page-header">
     </div>
 
     <section class="profile-banner">
 
         <div class="profile-avatar">
-            <i class="fa-solid fa-user"></i>
+        <i class="fa-solid fa-user"></i>
         </div>
 
         <div class="profile-details">
 
-            <h2>Fashion Explorer</h2>
-            <p>fashion@email.com</p>
+        <h2 id="profileName"></h2>
+        <p id="profileEmail"></p>
 
-            <button class="edit-profile-btn">
-                <i class="fa-solid fa-pen"></i>
-                Edit Profile
-            </button>
+        <button class="edit-profile-btn">
+            <i class="fa-solid fa-pen"></i>
+            Edit Profile
+        </button>
 
         </div>
 
@@ -154,12 +154,12 @@ function logout(){
 
         <div class="account-row">
             <span>Username</span>
-            <strong>Fashion Explorer</strong>
+            <strong id="accountUsername"></strong>
         </div>
 
         <div class="account-row">
             <span>Email</span>
-            <strong>fashion@email.com</strong>
+            <strong id="accountEmail"></strong>
         </div>
 
         <div class="account-row">
@@ -175,122 +175,17 @@ function logout(){
 
 <script>
 
-let selectedCategory = "all";
+document.getElementById("profileName").textContent =
+    sessionStorage.getItem("username");
 
-const categoryButtons =
-document.querySelectorAll(".category-btn");
+document.getElementById("profileEmail").textContent =
+    sessionStorage.getItem("email");
 
-const colorFilter =
-document.getElementById("colorFilter");
+document.getElementById("accountUsername").textContent =
+    sessionStorage.getItem("username");
 
-const styleFilter =
-document.getElementById("styleFilter");
-
-const items =
-document.querySelectorAll(".clothing-item");
-
-/* FILTER */
-
-function applyFilters(){
-
-    const selectedColor =
-    colorFilter.value;
-
-    const selectedStyle =
-    styleFilter.value;
-
-    items.forEach(item => {
-
-        const category =
-        item.dataset.category;
-
-        const color =
-        item.dataset.color;
-
-        const style =
-        item.dataset.style;
-
-        const categoryMatch =
-        selectedCategory === "all" ||
-        category === selectedCategory;
-
-        const colorMatch =
-        selectedColor === "all" ||
-        color === selectedColor;
-
-        const styleMatch =
-        selectedStyle === "all" ||
-        style === selectedStyle;
-
-        item.style.display =
-        categoryMatch &&
-        colorMatch &&
-        styleMatch
-        ? "block"
-        : "none";
-
-    });
-
-}
-
-/* CATEGORY */
-
-categoryButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        categoryButtons.forEach(btn =>
-            btn.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        selectedCategory =
-        button.dataset.category;
-
-        applyFilters();
-
-    });
-
-});
-
-/* COLOR */
-
-colorFilter.addEventListener(
-"change",
-applyFilters
-);
-
-/* STYLE */
-
-styleFilter.addEventListener(
-"change",
-applyFilters
-);
-
-/* SHUFFLE */
-
-document
-.getElementById("shuffleBtn")
-.addEventListener("click", () => {
-
-    const container =
-    document.getElementById(
-        "wardrobeContainer"
-    );
-
-    const cards =
-    Array.from(container.children);
-
-    cards.sort(() =>
-        Math.random() - 0.5
-    );
-
-    cards.forEach(card =>
-        container.appendChild(card)
-    );
-
-});
+document.getElementById("accountEmail").textContent =
+    sessionStorage.getItem("email");
 
 </script>
 
