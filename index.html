@@ -233,6 +233,10 @@ function logout(){
                                 Neutrals
                             </option>
 
+                            <option value="metallic">
+                                Metallics
+                            </option>
+
                         </select>
 
                         <select id="styleFilter"
@@ -309,31 +313,54 @@ document.addEventListener("DOMContentLoaded", () => {
     const styleFilter = document.getElementById("styleFilter");
     const container = document.getElementById("wardrobeContainer"); 
 
-    // FETCH
-    fetch('json_clothing.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Gagal mengambil data dari server lokal');
-            }
-            return response.json(); 
-        })
-        .then(data => {
+    if (!localStorage.getItem("wardrobe")) {
+
+        fetch("clothing.json")
+            .then(res => res.json())
+            .then(data => {
+
+                localStorage.setItem(
+                    "wardrobe",
+                    JSON.stringify(data)
+                );
+
+                location.reload();
+
+            });
+
+        return;
+    }
+
+    const data =
+    JSON.parse(localStorage.getItem("wardrobe")) || [];
+
             container.innerHTML = ""; 
 
             data.forEach(item => {
+                  console.log("Nama:", item.name);
+    console.log("Style:", item.style);
+    console.log("Color:", item.color);
                 const editAction = item.has_edit ? `
-                    <div class="card-actions">
-                        <a href="edit-clothing.html?name=${encodeURIComponent(item.name)}" class="edit-btn">
-                            <i class="fa-solid fa-pen"></i>
-                        </a>
-                    </div>
-                ` : '';
+                <div class="card-actions">
+                    <a href="edit-clothing.html?name=${encodeURIComponent(item.name)}" class="edit-btn">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteClothing('${item.name}')">
+
+                        <i class="fa-solid fa-trash-can"></i>
+
+                    </button>
+                </div>
+            ` : '';
 
                 const cardHTML = `
-                    <div class="col-lg-3 col-md-4 clothing-item"
+                        <div class="col-lg-3 col-md-4 clothing-item"
                          data-category="${item.category}"
-                         data-color="${item.color}"
-                         data-style="${item.style}">
+                         data-style='${JSON.stringify(item.style)}'
+                         data-color='${JSON.stringify(item.color)}'>
                         <div class="wardrobe-card">
                             <img src="${item.image}" class="img-fluid">
                             <p>${item.name}</p>
@@ -345,8 +372,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             initFilterEvents();
-        })
-        .catch(error => console.error("Eror memuat data:", error));
 
     // FILTER LOGIC
     function applyFilters(){
@@ -355,15 +380,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const selectedStyle = styleFilter.value;
 
         items.forEach(item => {
+
             const category = item.dataset.category;
-            const color = item.dataset.color;
-            const style = item.dataset.style;
+            const styles = JSON.parse(item.dataset.style || "[]");
+            const colors = JSON.parse(item.dataset.color || "[]");
 
-            const categoryMatch = selectedCategory === "all" || category === selectedCategory;
-            const colorMatch = selectedColor === "all" || color === selectedColor;
-            const styleMatch = selectedStyle === "all" || style === selectedStyle;
+            const categoryMatch =
+                selectedCategory === "all" || category === selectedCategory;
 
-            item.style.display = categoryMatch && colorMatch && styleMatch ? "block" : "none";
+            const styleMatch =
+                selectedStyle === "all" || styles.includes(selectedStyle);
+
+            const colorMatch =
+                selectedColor === "all" || colors.includes(selectedColor);
+
+            item.style.display =
+                categoryMatch && colorMatch && styleMatch
+                    ? "block"
+                    : "none";
         });
     }
 
@@ -396,6 +430,27 @@ document.addEventListener("DOMContentLoaded", () => {
         cards.forEach(card => container.appendChild(card));
     });
 });
+
+    //Delete
+    function deleteClothing(name){
+    if(!confirm("Delete this clothing item?")){
+        return;
+    }
+
+    let wardrobe =
+        JSON.parse(localStorage.getItem("wardrobe")) || [];
+
+    wardrobe = wardrobe.filter(item =>
+        item.name !== name
+    );
+
+    localStorage.setItem(
+        "wardrobe",
+        JSON.stringify(wardrobe)
+    );
+
+    location.reload();
+    }
 </script>
 
 </body>

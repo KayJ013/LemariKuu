@@ -163,32 +163,32 @@ function logout(){
                             </h6>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="casual">
                                 <label class="form-check-label">Casual</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="formal">
                                 <label class="form-check-label">Formal</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="business">
                                 <label class="form-check-label">Business</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="streetwear">
                                 <label class="form-check-label">Streetwear</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="sporty">
                                 <label class="form-check-label">Sporty</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="vintage">
                                 <label class="form-check-label">Vintage</label>
                             </div>
 
@@ -201,32 +201,32 @@ function logout(){
                             </h6>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="warm">
                                 <label class="form-check-label">Warm Tones</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="cool">
                                 <label class="form-check-label">Cool Tones</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="earth">
                                 <label class="form-check-label">Earth Tones</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="neutral">
                                 <label class="form-check-label">Neutrals</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="pastel">
                                 <label class="form-check-label">Pastels</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="metallic">
                                 <label class="form-check-label">Metallics</label>
                             </div>
 
@@ -263,55 +263,55 @@ const urlParams = new URLSearchParams(window.location.search);
 const clothingNameURL = urlParams.get('name');
 
 let currentItemData = null;
+let currentIndex = -1;
 
 if (clothingNameURL) {
-    fetch('json_clothing.php')
-        .then(response => response.json())
-        .then(data => {
-            // Kita bersihkan spasi di URL untuk dicocokkan (misal "blue shirt" atau "blueshirt" jadi "blueshirt")
-            const cleanURLName = clothingNameURL.replace(/\s+/g, '').toLowerCase();
 
-            const item = data.find(clothing => {
-                const cleanJSONName = clothing.name.replace(/\s+/g, '').toLowerCase();
-                return cleanJSONName === cleanURLName;
-            });
-            
-            if (item) {
-                currentItemData = item;
-                populateForm(item);
-            } else {
-                console.error("Data pakaian tidak ditemukan untuk nama: " + clothingNameURL);
-            }
-        })
-        .catch(error => console.error("Gagal mengambil data pakaian:", error));
+    const data =
+        JSON.parse(localStorage.getItem("wardrobe")) || [];
+
+    const cleanURLName =
+        clothingNameURL.replace(/\s+/g, '').toLowerCase();
+
+    currentIndex = data.findIndex(clothing => {
+
+        const cleanJSONName =
+            clothing.name.replace(/\s+/g, '').toLowerCase();
+
+        return cleanJSONName === cleanURLName;
+
+    });
+
+    if (currentIndex !== -1) {
+
+        currentItemData = data[currentIndex];
+
+        populateForm(currentItemData);
+
+    } else {
+
+        console.error(
+            "Data pakaian tidak ditemukan"
+        );
+
+    }
+
 }
 
 function populateForm(item) {
+
     document.getElementById("preview").src = item.image;
     document.getElementById("clothesName").value = item.name;
-    document.getElementById("clothesCategory").value = item.category.toLowerCase();
+    document.getElementById("clothesCategory").value = item.category;
 
-    const styleCheckboxes = document.querySelectorAll('.col-lg-2 .form-check-input');
-    styleCheckboxes.forEach(cb => {
-        const labelText = cb.nextElementSibling.textContent.trim().toLowerCase();
-        const itemStyle = item.style.toLowerCase();
-        
-        cb.checked = itemStyle.includes(labelText) || labelText.includes(itemStyle);
+    document.querySelectorAll(".style-checkbox").forEach(cb => {
+        cb.checked = item.style.includes(cb.value);
     });
 
-    const colorCheckboxes = document.querySelectorAll('.col-lg-3 .form-check-input');
-    colorCheckboxes.forEach(cb => {
-        const labelText = cb.nextElementSibling.textContent.trim().toLowerCase();
-        const itemColor = item.color.toLowerCase();
-
-        if (labelText.includes('warm') && itemColor.includes('warm')) cb.checked = true;
-        else if (labelText.includes('cool') && itemColor.includes('cool')) cb.checked = true;
-        else if (labelText.includes('earth') && itemColor.includes('earth')) cb.checked = true;
-        else if (labelText.includes('neutral') && itemColor.includes('neutral')) cb.checked = true;
-        else if (labelText.includes('pastel') && itemColor.includes('pastel')) cb.checked = true;
-        else if (labelText.includes('metallic') && itemColor.includes('metallic')) cb.checked = true;
-        else cb.checked = false;
+    document.querySelectorAll(".color-checkbox").forEach(cb => {
+        cb.checked = item.color.includes(cb.value);
     });
+
 }
 
 function previewImage(event){
@@ -325,8 +325,57 @@ function previewImage(event){
 }
 
 function saveChanges(){
-    alert("Changes saved successfully for: " + clothingNameURL);
-    window.location.href = "index.html";
+
+    const wardrobe =
+        JSON.parse(localStorage.getItem("wardrobe")) || [];
+
+    if(currentIndex === -1){
+
+        alert("Item not found");
+        return;
+
+    }
+
+    const selectedStyles =
+    Array.from(
+        document.querySelectorAll(".style-checkbox:checked")
+    ).map(cb => cb.value);
+
+    const selectedColors =
+    Array.from(
+        document.querySelectorAll(".color-checkbox:checked")
+    ).map(cb => cb.value);
+
+    wardrobe[currentIndex].name =
+        document.getElementById(
+            "clothesName"
+        ).value;
+
+    wardrobe[currentIndex].category =
+        document.getElementById(
+            "clothesCategory"
+        ).value;
+
+    wardrobe[currentIndex].image =
+        document.getElementById(
+            "preview"
+        ).src;
+
+    wardrobe[currentIndex].style =
+        selectedStyles;
+
+    wardrobe[currentIndex].color =
+        selectedColors;
+
+    localStorage.setItem(
+        "wardrobe",
+        JSON.stringify(wardrobe)
+    );
+
+    alert("Changes saved successfully!");
+
+    window.location.href =
+        "index.html";
 }
 </script>
 

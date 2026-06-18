@@ -110,7 +110,7 @@ function logout(){
                     Add New Clothing Item
                 </h3>
 
-                <form>
+                <form id="addClothingForm">
 
                     <div class="row">
 
@@ -124,6 +124,7 @@ function logout(){
                             class="img-fluid border rounded mb-3">
 
                             <input
+                            id="imageInput"
                             type="file"
                             class="form-control"
                             onchange="previewImage(event)">
@@ -139,6 +140,7 @@ function logout(){
                             </label>
 
                             <input
+                            id="clothesName"
                             type="text"
                             class="form-control">
 
@@ -146,7 +148,7 @@ function logout(){
                                 Category
                             </label>
 
-                            <select class="form-select">
+                            <select id="clothesCategory" class="form-select">
 
                                 <option>Tops</option>
                                 <option>Bottoms</option>
@@ -166,32 +168,32 @@ function logout(){
                             </h6>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="casual">
                                 <label class="form-check-label">Casual</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="formal">
                                 <label class="form-check-label">Formal</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="business">
                                 <label class="form-check-label">Business</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="streetwear">
                                 <label class="form-check-label">Streetwear</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="sporty">
                                 <label class="form-check-label">Sporty</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input style-checkbox" type="checkbox" value="vintage">
                                 <label class="form-check-label">Vintage</label>
                             </div>
 
@@ -206,32 +208,32 @@ function logout(){
                             </h6>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="warm">
                                 <label class="form-check-label">Warm Tones</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="cool">
                                 <label class="form-check-label">Cool Tones</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="earth">
                                 <label class="form-check-label">Earth Tones</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="neutral">
                                 <label class="form-check-label">Neutrals</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="pastel">
                                 <label class="form-check-label">Pastels</label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input color-checkbox" type="checkbox" value="metallic">
                                 <label class="form-check-label">Metallics</label>
                             </div>
 
@@ -270,8 +272,10 @@ function previewImage(event){
 
     reader.onload = function(){
 
+        imageData = reader.result;
+
         document.getElementById("preview").src =
-        reader.result;
+            reader.result;
 
     }
 
@@ -281,7 +285,76 @@ function previewImage(event){
 
 }
 
+let imageData = "";
+
+document.getElementById("addClothingForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const selectedStyles =
+    Array.from(
+        document.querySelectorAll(".style-checkbox:checked")
+    ).map(item => item.value);
+
+    const selectedColors =
+    Array.from(
+        document.querySelectorAll(".color-checkbox:checked")
+    ).map(item => item.value);
+
+    const wardrobe =
+        JSON.parse(
+            localStorage.getItem("wardrobe")
+        ) || [];
+
+    const newItem = {
+
+        name:
+            document.getElementById(
+                "clothesName"
+            ).value,
+
+        image:
+            imageData ||
+            "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
+
+        category:
+            document.getElementById(
+                "clothesCategory"
+            ).value.toLowerCase(),
+
+        style: selectedStyles,
+
+        color: selectedColors,
+
+        has_edit: true
+
+    };
+
+    wardrobe.push(newItem);
+
+    localStorage.setItem(
+        "wardrobe",
+        JSON.stringify(wardrobe)
+    );
+
+    alert("Clothing added successfully!");
+
+    window.location.href =
+        "index.html";
+
+});
+
+items.forEach(item => {
+
+    console.log(item.dataset.style);
+    console.log(item.dataset.color);
+
+});
+
 </script>
+
+
 
 </body>
 </html>

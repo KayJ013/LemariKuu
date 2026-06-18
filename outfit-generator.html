@@ -118,10 +118,10 @@ function logout(){
                     <!-- TOP -->
                     <div class="col-lg-3 col-md-4">
                         <div class="card outfit-card shadow-sm">
-                            <img id="topImage" src="images/top1.jpg">
+                            <img id="topImage" src="" alt="">
                             <div class="card-body text-center">
                                 <div class="slot-title">Top</div>
-                                <h5 id="topName">White Shirt</h5>
+                                <h5 id="topName">-</h5>
                             </div>
                         </div>
                     </div>
@@ -129,10 +129,10 @@ function logout(){
                     <!-- BOTTOM -->
                     <div class="col-lg-3 col-md-4">
                         <div class="card outfit-card shadow-sm">
-                            <img id="bottomImage" src="images/bottom1.jpg">
+                            <img id="bottomImage" src="" alt="">
                             <div class="card-body text-center">
                                 <div class="slot-title">Bottom</div>
-                                <h5 id="bottomName">Black Pants</h5>
+                                <h5 id="bottomName">-</h5>
                             </div>
                         </div>
                     </div>
@@ -140,10 +140,10 @@ function logout(){
                     <!-- OUTER -->
                     <div class="col-lg-3 col-md-4">
                         <div class="card outfit-card shadow-sm">
-                            <img id="outerImage" src="images/outer1.jpg">
+                            <img id="outerImage" src="" alt="">
                             <div class="card-body text-center">
                                 <div class="slot-title">Outerwear</div>
-                                <h5 id="outerName">Denim Jacket</h5>
+                                <h5 id="outerName">-</h5>
                             </div>
                         </div>
                     </div>
@@ -184,40 +184,52 @@ function logout(){
 </body>
 
 <script>
+// =======================
+// UTILS
+// =======================
 
-// ===========
-// DATA OUTFIT 
-// ===========
-let totalWardrobe = [];
-let lastIndex = -1;
+function formatStyle(text) {
+    if (!text) return "";
+    return text
+        .split(" ")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+}
 
-// Kombinasi Set
-const outfitSets = [
-    { style: "Urban Look", top: "Black T-Shirt", bottom: "Black Pants", outer: "Denim Jacket" },
-    { style: "Smart Casual", top: "Blue Shirt", bottom: "Blue Jeans", outer: "" },
-    { style: "Sporty Style", top: "White T-Shirt", bottom: "Khaki Shorts", outer: "Bomber Jacket" },
-    { style: "Casual Streetwear", top: "White T-Shirt", bottom: "Blue Jeans", outer: "Denim Jacket" },
-    { style: "Business Casual", top: "White Shirt", bottom: "Black Pants", outer: "Navy Blazer" },
-    { style: "Vintage Vibes", top: "White Shirt", bottom: "Khaki Chinos", outer: "Navy Blazer" }
-];
+function getWardrobe() {
+    return JSON.parse(localStorage.getItem("wardrobe")) || [];
+}
 
-// Fetch
-fetch('json_clothing.php')
-    .then(response => response.json())
-    .then(data => {
-        totalWardrobe = data; 
-        generateOutfit();
-    })
-    .catch(error => console.error("Gagal memuat data JSON:", error));
+function getRandom(arr) {
+    if (!arr || arr.length === 0) return null;
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
+function getAllStyles(data) {
+    return [...new Set(data.flatMap(item => item.style || []))];
+}
 
-// ===============
-// GENERATE OUTFIT
-// ===============
-function generateOutfit(){
-    if (totalWardrobe.length === 0) return;
+function filterItem(data, category, style) {
+    return data.filter(item =>
+        item.category === category &&
+        item.style.includes(style)
+    );
+}
 
-    // ANIMATION
+// =======================
+// MAIN GENERATOR
+// =======================
+
+function generateOutfit() {
+
+    const wardrobe = getWardrobe();
+
+    if (!wardrobe.length) {
+        alert("Wardrobe kosong!");
+        return;
+    }
+
+    // animasi
     document.querySelectorAll('.outfit-card').forEach(card => {
         card.classList.remove('shuffle-animation');
         void card.offsetWidth;
@@ -226,159 +238,140 @@ function generateOutfit(){
 
     createConfetti();
 
-    let randomIndex;
+    const styles = getAllStyles(wardrobe);
+
+    let selectedStyle = null;
+    let tries = 0;
+
+    // cari style yang valid (harus punya top & bottom)
     do {
-        randomIndex = Math.floor(Math.random() * outfitSets.length);
-    } while (randomIndex === lastIndex);
+        const candidate = getRandom(styles);
+        tries++;
 
-    lastIndex = randomIndex;
+        const tops = filterItem(wardrobe, "tops", candidate);
+        const bottoms = filterItem(wardrobe, "bottoms", candidate);
 
-    const selected = outfitSets[randomIndex];
+        if (tops.length > 0 && bottoms.length > 0) {
+            selectedStyle = candidate;
+            break;
+        }
 
-    const topData = totalWardrobe.find(item => item.name.toLowerCase() === selected.top.toLowerCase());
-    const bottomData = totalWardrobe.find(item => item.name.toLowerCase() === selected.bottom.toLowerCase());
-    const outerData = totalWardrobe.find(item => item.name.toLowerCase() === selected.outer.toLowerCase());
+    } while (tries < 30);
 
-    if (topData) {
-        document.getElementById("topImage").src = topData.image;
-        document.getElementById("topName").textContent = topData.name;
+    if (!selectedStyle) {
+        alert("Tidak ada outfit lengkap (top + bottom) di wardrobe kamu");
+        return;
     }
 
-    if (bottomData) {
-        document.getElementById("bottomImage").src = bottomData.image;
-        document.getElementById("bottomName").textContent = bottomData.name;
+    const tops = filterItem(wardrobe, "tops", selectedStyle);
+    const bottoms = filterItem(wardrobe, "bottoms", selectedStyle);
+    const outerwears = filterItem(wardrobe, "outerwears", selectedStyle);
+
+    const top = getRandom(tops);
+    const bottom = getRandom(bottoms);
+    const outer = getRandom(outerwears);
+
+    // =======================
+    // UPDATE UI
+    // =======================
+
+    const topImg = document.getElementById("topImage");
+    const bottomImg = document.getElementById("bottomImage");
+    const outerImg = document.getElementById("outerImage");
+
+    const topName = document.getElementById("topName");
+    const bottomName = document.getElementById("bottomName");
+    const outerName = document.getElementById("outerName");
+
+    if (top) {
+        topImg.src = top.image;
+        topName.textContent = top.name;
     }
 
-    const outerImgElement = document.getElementById("outerImage");
-    const outerNameElement = document.getElementById("outerName");
+    if (bottom) {
+        bottomImg.src = bottom.image;
+        bottomName.textContent = bottom.name;
+    }
 
-    if (outerData) {
-        outerImgElement.style.visibility = "visible";
-        outerImgElement.style.display = "block";
-        outerImgElement.src = outerData.image;
-        outerNameElement.textContent = outerData.name;
+    if (outer) {
+        outerImg.style.display = "block";
+        outerImg.src = outer.image;
+        outerName.textContent = outer.name;
     } else {
-        outerImgElement.style.visibility = "hidden"; 
-        outerImgElement.style.display = "block";
-        outerImgElement.src = ""; 
-        
-       outerNameElement.innerHTML = '<span class="text-muted small"><i>No Outerwear Needed</i></span>';
+        outerImg.style.display = "none";
+        outerName.innerHTML = '<span class="text-muted small"><i>No Outerwear Needed</i></span>';
     }
 
-    document.getElementById("outfitStyle").textContent = selected.style;
+    document.getElementById("outfitStyle").textContent =
+        formatStyle(selectedStyle);
 }
 
-// ==========================
-// BUTTON
-// ==========================
+// =======================
+// CONFETTI (FIXED)
+// =======================
 
-document
-.getElementById("generateBtn")
-.addEventListener(
-    "click",
-    generateOutfit
-);
+const canvas = document.getElementById("confettiCanvas");
+const ctx = canvas.getContext("2d");
 
-
-// ==========================
-// CONFETTI ANIMATION
-// ==========================
-
-const canvas =
-document.getElementById("confettiCanvas");
-
-const ctx =
-canvas.getContext("2d");
-
-canvas.width =
-window.innerWidth;
-
-canvas.height =
-window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 let particles = [];
 
-function createConfetti(){
+function createConfetti() {
 
     particles = [];
 
-    for(let i=0;i<30;i++){
-
+    for (let i = 0; i < 30; i++) {
         particles.push({
-
-            x:Math.random()*canvas.width,
-
-            y:-20,
-
-            size:Math.random()*8+4,
-
-            speedY:Math.random()*4+2,
-
-            speedX:(Math.random()-0.5)*4,
-
-            rotation:Math.random()*360
-
+            x: Math.random() * canvas.width,
+            y: -20,
+            size: Math.random() * 8 + 4,
+            speedY: Math.random() * 4 + 2,
+            speedX: (Math.random() - 0.5) * 4,
+            rotation: Math.random() * 360
         });
-
     }
 
     animateConfetti();
-
 }
 
-function animateConfetti(){
+function animateConfetti() {
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    particles.forEach(p=>{
+    particles.forEach(p => {
 
         p.y += p.speedY;
         p.x += p.speedX;
 
         ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation * Math.PI / 180);
 
-        ctx.translate(
-            p.x,
-            p.y
-        );
+        ctx.fillStyle = `hsl(${Math.random() * 360},80%,60%)`;
 
-        ctx.rotate(
-            p.rotation * Math.PI / 180
-        );
-
-        ctx.fillStyle = `hsl(${Math.random()*360},80%,60%)`;
-
-        ctx.fillRect(
-            -p.size/2,
-            -p.size/2,
-            p.size,
-            p.size
-        );
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
 
         ctx.restore();
-
     });
 
-    particles =
-    particles.filter(
-        p => p.y < canvas.height + 50
-    );
+    particles = particles.filter(p => p.y < canvas.height + 50);
 
-    if(particles.length > 0){
-
-        requestAnimationFrame(
-            animateConfetti
-        );
-
+    if (particles.length > 0) {
+        requestAnimationFrame(animateConfetti);
     }
-
 }
 
+// =======================
+// EVENT
+// =======================
+document.getElementById("generateBtn")
+.addEventListener("click", generateOutfit);
+
+window.addEventListener("DOMContentLoaded", () => {
+    generateOutfit();
+});
 </script>
 
 </html>
