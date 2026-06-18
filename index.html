@@ -437,19 +437,24 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    let wardrobe =
-        JSON.parse(localStorage.getItem("wardrobe")) || [];
+    let wardrobe;
 
-    wardrobe = wardrobe.filter(item =>
-        item.name !== name
-    );
+        try {
+            wardrobe = JSON.parse(localStorage.getItem("wardrobe"));
+        } catch (e) {
+            wardrobe = null;
+        }
 
-    localStorage.setItem(
-        "wardrobe",
-        JSON.stringify(wardrobe)
-    );
+        if (!Array.isArray(wardrobe) || wardrobe.length === 0) {
+            fetch("clothing.json")
+                .then(res => res.json())
+                .then(data => {
+                    localStorage.setItem("wardrobe", JSON.stringify(data));
+                    location.reload();
+                });
 
-    location.reload();
+            return;
+        }
     }
 </script>
 
