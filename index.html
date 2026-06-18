@@ -430,11 +430,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Delete
     function deleteClothing(name){
-    if(!confirm("Delete this clothing item?")){
-        return;
-    }
+        if(!confirm("Delete this clothing item?")){
+            return;
+        }
 
-    let wardrobe;
+        let wardrobe;
 
         try {
             wardrobe = JSON.parse(localStorage.getItem("wardrobe"));
@@ -449,9 +449,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem("wardrobe", JSON.stringify(data));
                     location.reload();
                 });
-
             return;
         }
+
+        // Filter out item yang namanya sesuai
+        const updated = wardrobe.filter(item => item.name !== name);
+
+        localStorage.setItem("wardrobe", JSON.stringify(updated));
+
+        location.reload();
     }
 </script>
 
