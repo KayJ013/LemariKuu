@@ -174,19 +174,18 @@ function logout(){
 </div>
 
 <script>
+    const username = sessionStorage.getItem("username") || "Guest";
+    const email = sessionStorage.getItem("email") || "Tidak ada email";
 
-document.getElementById("profileName").textContent =
-    sessionStorage.getItem("username");
+    const nameEl = document.getElementById("profileName");
+    const emailEl = document.getElementById("profileEmail");
+    const accUserEl = document.getElementById("accountUsername");
+    const accEmailEl = document.getElementById("accountEmail");
 
-document.getElementById("profileEmail").textContent =
-    sessionStorage.getItem("email");
-
-document.getElementById("accountUsername").textContent =
-    sessionStorage.getItem("username");
-
-document.getElementById("accountEmail").textContent =
-    sessionStorage.getItem("email");
-
+    if (nameEl) nameEl.textContent = username;
+    if (emailEl) emailEl.textContent = email;
+    if (accUserEl) accUserEl.textContent = username;
+    if (accEmailEl) accEmailEl.textContent = email;
 </script>
 
 </body>

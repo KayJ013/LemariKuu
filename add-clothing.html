@@ -276,13 +276,11 @@ function previewImage(event){
 
         document.getElementById("preview").src =
             reader.result;
-
     }
 
     reader.readAsDataURL(
         event.target.files[0]
     );
-
 }
 
 let imageData = "";
@@ -344,17 +342,6 @@ document.getElementById("addClothingForm")
         "index.html";
 
 });
-
-items.forEach(item => {
-
-    console.log(item.dataset.style);
-    console.log(item.dataset.color);
-
-});
-
 </script>
-
-
-
 </body>
 </html>

@@ -184,9 +184,6 @@ function logout(){
 </body>
 
 <script>
-// =======================
-// UTILS
-// =======================
 
 function formatStyle(text) {
     if (!text) return "";
@@ -216,9 +213,9 @@ function filterItem(data, category, style) {
     );
 }
 
-// =======================
-// MAIN GENERATOR
-// =======================
+// ================
+// OUTFIT GENERATOR
+// ================
 
 function generateOutfit() {
 
@@ -229,7 +226,7 @@ function generateOutfit() {
         return;
     }
 
-    // animasi
+    // ANIMATION
     document.querySelectorAll('.outfit-card').forEach(card => {
         card.classList.remove('shuffle-animation');
         void card.offsetWidth;
@@ -243,7 +240,6 @@ function generateOutfit() {
     let selectedStyle = null;
     let tries = 0;
 
-    // cari style yang valid (harus punya top & bottom)
     do {
         const candidate = getRandom(styles);
         tries++;
@@ -270,10 +266,6 @@ function generateOutfit() {
     const top = getRandom(tops);
     const bottom = getRandom(bottoms);
     const outer = getRandom(outerwears);
-
-    // =======================
-    // UPDATE UI
-    // =======================
 
     const topImg = document.getElementById("topImage");
     const bottomImg = document.getElementById("bottomImage");
@@ -306,9 +298,9 @@ function generateOutfit() {
         formatStyle(selectedStyle);
 }
 
-// =======================
-// CONFETTI (FIXED)
-// =======================
+// ========
+// CONFETTI
+// ========
 
 const canvas = document.getElementById("confettiCanvas");
 const ctx = canvas.getContext("2d");
@@ -363,9 +355,9 @@ function animateConfetti() {
     }
 }
 
-// =======================
+// ======
 // EVENT
-// =======================
+// =====
 document.getElementById("generateBtn")
 .addEventListener("click", generateOutfit);
 

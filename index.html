@@ -166,7 +166,6 @@ function logout(){
                 </h4>
 
                 <!-- CATEGORY FILTER -->
-
                 <div class="category-filter mb-4">
 
                     <button class="category-btn active"
@@ -277,7 +276,6 @@ function logout(){
                 </div>
 
                 <!-- GALLERY -->
-
                 <div class="row g-4"
                      id="wardrobeContainer">
 
@@ -292,7 +290,6 @@ function logout(){
 </div>
 
 <!-- FLOATING BUTTON -->
-
 <a href="add-clothing.html"
    class="fab">
 
@@ -337,9 +334,9 @@ document.addEventListener("DOMContentLoaded", () => {
             container.innerHTML = ""; 
 
             data.forEach(item => {
-                  console.log("Nama:", item.name);
-    console.log("Style:", item.style);
-    console.log("Color:", item.color);
+                    console.log("Nama:", item.name);
+                    console.log("Style:", item.style);
+                    console.log("Color:", item.color);
                 const editAction = item.has_edit ? `
                 <div class="card-actions">
                     <a href="edit-clothing.html?name=${encodeURIComponent(item.name)}" class="edit-btn">

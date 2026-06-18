@@ -376,7 +376,6 @@ body::after{
     .brand{
 
         font-size:38px;
-
     }
 
 }
@@ -500,38 +499,22 @@ async function login(event){
         let loggedUser = null;
 
         for(let i = 0; i < users.length; i++){
+            const emailNode = users[i].querySelector("email");
+            const passwordNode = users[i].querySelector("password");
+            const usernameNode = users[i].querySelector("username");
 
-            const xmlEmail =
-                users[i]
-                .getElementsByTagName("email")[0]
-                .textContent;
+            const xmlEmail = emailNode ? emailNode.textContent.trim() : "";
+            const xmlPassword = passwordNode ? passwordNode.textContent.trim() : "";
+            const xmlUsername = usernameNode ? usernameNode.textContent.trim() : "User";
 
-            const xmlPassword =
-                users[i]
-                .getElementsByTagName("password")[0]
-                .textContent;
-
-            if(
-                email === xmlEmail &&
-                password === xmlPassword
-            ){
-
-                        const xmlUsername =
-            users[i]
-            .getElementsByTagName("username")[0]
-            .textContent;
-
-            validLogin = true;
-
-            loggedUser = {
-                username: xmlUsername,
-                email: xmlEmail
-            };
-
-            break;
-
+            if(email === xmlEmail && password === xmlPassword){
+                validLogin = true;
+                loggedUser = {
+                    username: xmlUsername,
+                    email: xmlEmail
+                };
+                break;
             }
-
         }
 
         if(validLogin){
@@ -567,7 +550,7 @@ async function login(event){
         }else{
 
             alert(
-                "Email atau password salah!"
+                "Wrong Email or Password"
             );
 
         }
@@ -577,7 +560,7 @@ async function login(event){
         console.error(error);
 
         alert(
-            "Gagal membaca login-data.xml"
+            "Failed to Read login-data.xml"
         );
 
     }
