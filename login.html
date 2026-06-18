@@ -497,7 +497,6 @@ async function login(event){
             xml.getElementsByTagName("user");
 
         let validLogin = false;
-        let loggedUser = null;
 
         for(let i = 0; i < users.length; i++){
 
@@ -516,19 +515,8 @@ async function login(event){
                 password === xmlPassword
             ){
 
-                        const xmlUsername =
-            users[i]
-            .getElementsByTagName("username")[0]
-            .textContent;
-
-            validLogin = true;
-
-            loggedUser = {
-                username: xmlUsername,
-                email: xmlEmail
-            };
-
-            break;
+                validLogin = true;
+                break;
 
             }
 
@@ -540,16 +528,6 @@ async function login(event){
                 "isLoggedIn",
                 "true"
             );
-
-            sessionStorage.setItem(
-            "username",
-            loggedUser.username
-           );
-
-            sessionStorage.setItem(
-            "email",
-            loggedUser.email
-           );
 
             document.body.style.transition =
                 "opacity .5s";
