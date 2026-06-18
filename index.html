@@ -452,7 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Filter out item yang namanya sesuai
         const updated = wardrobe.filter(item => item.name !== name);
 
         localStorage.setItem("wardrobe", JSON.stringify(updated));
